@@ -1,0 +1,40 @@
+2020-08-19 11:00:30,720 [main]  INFO  org.gatekeeper.endpoint.Application - Starting Application on sea-skocheri-mb.local with PID 64958 (/Users/skocheri/Documents/Project/DE/Prebid/Gatekeeper/Gatekeeper-POC/gatekeeper-endpoint/target/classes started by skocheri in /Users/skocheri/Documents/Project/DE/Prebid/Gatekeeper/Gatekeeper-POC/gatekeeper-endpoint)
+2020-08-19 11:00:30,722 [main]  INFO  org.gatekeeper.endpoint.Application - The following profiles are active: local
+2020-08-19 11:00:31,091 [main]  INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2020-08-19 11:00:31,145 [main]  INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 49ms. Found 2 JPA repository interfaces.
+2020-08-19 11:00:31,470 [main]  INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8081 (http)
+2020-08-19 11:00:31,476 [main]  INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2020-08-19 11:00:31,476 [main]  INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.33]
+2020-08-19 11:00:31,583 [main]  INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2020-08-19 11:00:31,583 [main]  INFO  o.s.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 832 ms
+2020-08-19 11:00:31,627 [main]  INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2020-08-19 11:00:31,732 [main]  INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2020-08-19 11:00:31,762 [main]  INFO  o.s.b.a.h.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:mydb'
+2020-08-19 11:00:31,853 [main]  INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-08-19 11:00:31,901 [main]  INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 5.4.12.Final
+2020-08-19 11:00:31,989 [main]  INFO  o.h.annotations.common.Version - HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-08-19 11:00:32,065 [main]  INFO  org.hibernate.dialect.Dialect - HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2020-08-19 11:00:32,395 [main]  INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-08-19 11:00:32,402 [main]  INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-08-19 11:00:32,590 [main]  WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-08-19 11:00:32,833 [main]  INFO  o.s.s.c.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2020-08-19 11:00:32,954 [main]  INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8081 (http) with context path ''
+2020-08-19 11:00:32,956 [main]  INFO  org.gatekeeper.endpoint.Application - Started Application in 2.635 seconds (JVM running for 2.959)
+2020-08-19 11:00:42,777 [vert.x-eventloop-thread-18]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request GET /gatekeeper/id
+2020-08-19 11:00:42,810 [vert.x-eventloop-thread-18]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/id
+2020-08-19 11:00:47,980 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request GET /gatekeeper/id
+2020-08-19 11:00:47,982 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/id
+2020-08-19 11:01:03,914 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request GET /gatekeeper/id
+2020-08-19 11:01:03,915 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/id
+2020-08-19 11:01:03,918 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request OPTIONS /gatekeeper/sync
+2020-08-19 11:01:03,919 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
+2020-08-19 11:01:03,921 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request POST /gatekeeper/sync
+2020-08-19 11:01:03,953 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request POST /gatekeeper/sync
+2020-08-19 11:01:03,954 [vert.x-eventloop-thread-8]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
+2020-08-19 11:01:03,954 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
+2020-08-19 11:01:22,521 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request OPTIONS /gatekeeper/sync
+2020-08-19 11:01:22,522 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
+2020-08-19 11:01:22,525 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request POST /gatekeeper/sync
+2020-08-19 11:01:22,526 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
+2020-08-19 11:01:22,541 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Accepted request POST /gatekeeper/sync
+2020-08-19 11:01:22,542 [vert.x-eventloop-thread-20]  INFO  o.g.e.h.AddRequestMetricsHandler - Response sent for /gatekeeper/sync
