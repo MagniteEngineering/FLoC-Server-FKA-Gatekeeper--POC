@@ -1,6 +1,6 @@
 # Gatekeeprid-endpoint and Chrome Extension
 
-# Setting up Gatekeeprid-endpoint
+## Setting up Gatekeeprid-endpoint
 
 ### Build and run gatekeeper-endpoint locally
 
@@ -10,7 +10,7 @@ mvn clean install
 ./start.sh
 ```
 
-#Setting up Gatekeeprid ChromeExt
+## Setting up Gatekeeprid ChromeExt
 
 ### Update background.js 
 cd GatekeeperChromeExt
