@@ -1,5 +1,7 @@
 # Gatekeeprid-endpoint and Chrome Extension
 
+The Gatekeeper proposal can be found in https://github.com/MagniteEngineering/Gatekeeper
+
 ## Setting up Gatekeeprid-endpoint
 
 ### Build and run gatekeeper-endpoint locally
