@@ -13,6 +13,8 @@ mvn clean install
 ## Setting up Gatekeeprid ChromeExt
 
 ### Update background.js 
+
+```
 cd GatekeeperChromeExt
 edit background.js to local gatekeeper endpoint 
 var URL = 'http://<local>/gatekeeper/id';
@@ -21,6 +23,7 @@ var GATEKEEPER_SYNC = 'http://<local>/gatekeeper/sync';
 Example:
 var URL = 'http://sea-skocheri-mb.local/gatekeeper/id';
 var GATEKEEPER_SYNC = 'http://sea-skocheri-mb.local/gatekeeper/sync';
+```
 
 ### Setting up extension in Browser
 1. Open the Extension Management page by navigating to chrome://extensions.
