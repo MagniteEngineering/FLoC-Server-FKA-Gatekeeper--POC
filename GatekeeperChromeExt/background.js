@@ -3,6 +3,11 @@ var URL = 'http://sea-skocheri-mb.local/gatekeeper/id';
 var GATEKEEPER_SYNC = 'http://sea-skocheri-mb.local/gatekeeper/sync';
 var sid = "-1";
 
+const interval = setInterval(function() {
+    console.log("The session id is reset ");
+    storeId();
+}, 86400000);
+
 function storeId() {
     makeIdRequest(function (data) {
         chrome.storage.sync.set({"GatekeeperId": data}, function () {
