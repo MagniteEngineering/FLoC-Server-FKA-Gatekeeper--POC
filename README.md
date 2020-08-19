@@ -1,6 +1,6 @@
-# Setting up Gatekeeprid-endpoint 
+#Gatekeeprid-endpoint and Chrome Extension
 
-
+#Setting up Gatekeeprid-endpoint
 ### Build and run gatekeeper-endpoint locally
 
 ```
