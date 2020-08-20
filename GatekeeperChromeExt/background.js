@@ -29,6 +29,11 @@ function makeIdRequest(callback) {
 }
 
 function postRequest(uri) {
+    if(!isValidURL(uri)){
+        console.log("Invalid uri" + uri);
+        return;
+    }
+    console.log(" uri " + uri);
     var domain = extractHostname(uri);
     console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sid);
     var xhr = new XMLHttpRequest();
@@ -79,6 +84,11 @@ chrome.tabs.onCreated.addListener(function (tabId) {
         postRequest(tab.url)
     });
 });
+
+function isValidURL(string) {
+    var res = string.match(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g);
+    return (res !== null)
+};
 
 function getDomain(uri) {
     var domain = uri.match(/^[\w-]+:\/{2,}\[?([\w\.:-]+)\]?(?::[0-9]*)?/)[1]; //get tab value 'url'
