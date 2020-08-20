@@ -11,6 +11,7 @@ public class DataContext {
 
     private static final String DATA_SESSION_ID = "data.sessionId";
     private static final String DATA_COHORT_ID = "data.cohortId";
+    private static final String DATA_DOMAIN_ID = "data.domain";
 
     private RoutingContext routingContext;
 
@@ -36,6 +37,14 @@ public class DataContext {
         put(DATA_SESSION_ID, sessionId);
     }
 
+
+    public String getDomain() {
+        return get(DATA_DOMAIN_ID);
+    }
+
+    public void setDomain(String domain) {
+        put(DATA_DOMAIN_ID, domain);
+    }
 
     public String getCohortId() {
         return get(DATA_COHORT_ID);

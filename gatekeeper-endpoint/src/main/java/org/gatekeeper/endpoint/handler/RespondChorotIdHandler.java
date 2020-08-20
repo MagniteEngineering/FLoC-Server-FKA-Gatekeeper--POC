@@ -22,7 +22,7 @@ public class RespondChorotIdHandler implements Handler<RoutingContext> {
         String cohortId = dataContext.getCohortId();
 
         JsonObject responseJson = new JsonObject();
-        responseJson.put("CohortId", cohortId);
+        responseJson.put("cohortId", cohortId);
 
         response.setStatusCode(200);
 

@@ -17,34 +17,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GatekeeperSyncHandler implements Handler<RoutingContext> {
-    private static final Logger logger = LoggerFactory.getLogger(GatekeeperSyncHandler.class);
+public class GetSessionIdHandler implements Handler<RoutingContext> {
+    private static final Logger logger = LoggerFactory.getLogger(GetSessionIdHandler.class);
 
     @Autowired
     SessionService sessionService;
 
     @Autowired
-    public GatekeeperSyncHandler() {
+    public GetSessionIdHandler() {
     }
 
     @Override
     public void handle(RoutingContext routingContext) {
+
+        JsonObject json;
+
+        try {
+            json = routingContext.getBodyAsJson();
+        } catch (DecodeException e) {
+            logger.debug("Body is not json");
+            ResponseUtil.badRequest(routingContext.response());
+            return;
+        }
+
+        if (json == null) {
+            logger.debug("Body is missing");
+            ResponseUtil.badRequest(routingContext.response());
+            return;
+        }
+        String sessionId =  json.getString("sid");
+        logger.debug(" Session id "+ sessionId);
         DataContext dataContext = DataContext.from(routingContext);
-        String sessionId = dataContext.getSessionId();
-        String domain = dataContext.getDomain();
-        Timestamp currentTimestamp = new Timestamp(Calendar.getInstance().getTime().getTime());
-        Session session = new Session();
-        session.setSessionId(sessionId);
-        session.setDomain(domain);
-        session.setCreatedOn(currentTimestamp);
-        sessionService.save(session);
-
-        HttpServerResponse response = routingContext.response();
-        response.setStatusCode(200);
-
-        logger.debug("Responding with {} ", response.getStatusCode());
-
-        response.end();
+        dataContext.setSessionId(sessionId);
+         routingContext.next();
     }
 
 }

@@ -37,14 +37,10 @@ function postRequest(uri) {
     var domain = extractHostname(uri);
     console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sid);
     var xhr = new XMLHttpRequest();
-    var parameters = {
-        "domain": domain,
-        "sid": sid
-
-    };
+    var sessionObj = JSON.parse(sid);
     xhr.open("POST", GATEKEEPER_SYNC, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({"domain": domain, "sid": sid}));
+    xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
     xhr.onreadystatechange = function () { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             console.log("Got response 200!");

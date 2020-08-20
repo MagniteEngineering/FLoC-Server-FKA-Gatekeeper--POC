@@ -66,10 +66,10 @@
             </encoder>
         </appender>
 
-        <logger name="org.sharedid.endpoint" level="DEBUG"/>
+        <logger name="org.gatekeeper.endpoint" level="DEBUG"/>
         <logger name="io.github.azagniotov.metrics.reporter.cloudwatch.CloudWatchReporter" level="DEBUG"/>
 
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="ASYNC_FILE"/>
         </root>

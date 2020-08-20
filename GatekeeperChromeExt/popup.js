@@ -1,27 +1,36 @@
 var URL = 'http://sea-skocheri-mb.local/cohort/id';
 
 function savetabs() {
-    var content = document.getElementById('content');
-    makeRequest(function (data) {
-        content.innerHTML = data;
-        chrome.storage.sync.set({"CohortId": data}, function () {
-            console.log("Setting cohort id");
-        });
+    chrome.storage.sync.get('GatekeeperId', function (obj) {
+        console.log('GatekeeperId', obj.GatekeeperId);
+        var json = JSON.parse(obj.GatekeeperId);
+        postRequest(json.sessionId);
     });
-
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     savetabs();
 });
 
-function makeRequest(callback) {
+function postRequest(sessionId) {
+    if(sessionId == -1){
+        console.log("Invalid sessionId");
+        return;
+    }
+    var content = document.getElementById('content');
+    console.log(" sessionId " + sessionId);
+    console.log(" Posting Request to get cohort for session id  "+ sessionId );
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', URL);
-    xhr.addEventListener('load', function (e) {
-        var result = xhr.responseText;
-        callback(result);
-    });
-    xhr.send();
+
+    xhr.open("POST", URL, true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xhr.send(JSON.stringify({"sid": sessionId}));
+    xhr.onreadystatechange = function () { // Call a function when the state changes.
+        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+            console.log("Got response 200!");
+            var json = JSON.parse(xhr.responseText);
+            console.log("Cohort "+ json.cohortId);
+            content.innerHTML = json.cohortId;
+        }
+    }
 }

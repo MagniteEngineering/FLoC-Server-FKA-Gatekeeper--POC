@@ -4,8 +4,8 @@ import java.sql.Timestamp;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "session_domain")
-public class Session {
+@Table(name = "session_cohort")
+public class Cohort {
 
     @Column(name = "ID")
     @Id
@@ -15,8 +15,8 @@ public class Session {
     @Column(name = "session_id")
     String sessionId;
 
-    @Column(name = "domain")
-    String domain;
+    @Column(name = "cohort_id")
+    String cohortId;
 
     @Column(name = "created_on")
     Timestamp createdOn;
@@ -38,12 +38,12 @@ public class Session {
         this.sessionId = sessionId;
     }
 
-    public String getDomain() {
-        return domain;
+    public String getCohortId() {
+        return cohortId;
     }
 
-    public void setDomain(String domain) {
-        this.domain = domain;
+    public void setCohortId(String cohortId) {
+        this.cohortId = cohortId;
     }
 
     public Timestamp getCreatedOn() {
