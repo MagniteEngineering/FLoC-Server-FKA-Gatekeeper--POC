@@ -1,4 +1,4 @@
-var URL = 'http://sea-skocheri-mb.local/cohort/id';
+var URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/cohort/id';
 
 function savetabs() {
     chrome.storage.sync.get('GatekeeperId', function (obj) {
