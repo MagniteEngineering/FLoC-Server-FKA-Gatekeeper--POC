@@ -7,6 +7,7 @@ The Gatekeeper proposal can be found in https://github.com/MagniteEngineering/Ga
 ### Build and run gatekeeper-endpoint locally
 
 Setup mysql locally and use the [DB scripts](/gatekeeper-endpoint/src/main/resources/schema.sql)
+
 Update application-local.properties
 
 ```
