@@ -22,7 +22,7 @@ public class RespondSessionIdHandler implements Handler<RoutingContext> {
         String sessionId = dataContext.getSessionId();
 
         JsonObject responseJson = new JsonObject();
-        responseJson.put("SessionId", sessionId);
+        responseJson.put("sessionId", sessionId);
 
         response.setStatusCode(200);
 

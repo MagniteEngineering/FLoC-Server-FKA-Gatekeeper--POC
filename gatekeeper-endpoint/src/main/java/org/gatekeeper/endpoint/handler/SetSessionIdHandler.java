@@ -7,16 +7,18 @@ import java.util.Random;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.gatekeeper.endpoint.context.DataContext;
+import org.gatekeeper.endpoint.model.Session;
+import org.gatekeeper.endpoint.service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SetUserIdHandler implements Handler<RoutingContext> {
+public class SetSessionIdHandler implements Handler<RoutingContext> {
     private static final Random RANDOM = new Random();
 
     @Autowired
-    public SetUserIdHandler() {
+    public SetSessionIdHandler() {
     }
 
     @Override

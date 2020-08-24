@@ -1,6 +1,8 @@
 var initialized = false;
-var URL = 'http://sea-skocheri-mb.local/gatekeeper/id';
-var GATEKEEPER_SYNC = 'http://sea-skocheri-mb.local/gatekeeper/sync';
+var SESSIONID_URL ='http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
+//'http://sea-skocheri-mb.local/gatekeeper/id';
+var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/sync';
+//'http://sea-skocheri-mb.local/gatekeeper/sync';
 var sid = "-1";
 
 const interval = setInterval(function() {
@@ -10,17 +12,19 @@ const interval = setInterval(function() {
 
 function storeId() {
     makeIdRequest(function (data) {
+        console.log(" Setting session id");
         chrome.storage.sync.set({"GatekeeperId": data}, function () {
             sid = data;
             console.log(" Session id: "+ data);
+            initialized = true;
         });
     });
-    initialized = true;
+
 }
 
 function makeIdRequest(callback) {
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', URL);
+    xhr.open('GET', SESSIONID_URL);
     xhr.addEventListener('load', function (e) {
         var result = xhr.responseText;
         callback(result);
@@ -34,17 +38,14 @@ function postRequest(uri) {
         return;
     }
     console.log(" uri " + uri);
-    var domain = extractHostname(uri);
+    //var domain = extractHostname(uri);
+    var  domain = uri;
     console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sid);
     var xhr = new XMLHttpRequest();
-    var parameters = {
-        "domain": domain,
-        "sid": sid
-
-    };
+    var sessionObj = JSON.parse(sid);
     xhr.open("POST", GATEKEEPER_SYNC, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({"domain": domain, "sid": sid}));
+    xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
     xhr.onreadystatechange = function () { // Call a function when the state changes.
         if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
             console.log("Got response 200!");
@@ -54,8 +55,9 @@ function postRequest(uri) {
 
 chrome.tabs.onUpdated.addListener(function
         (tabId, changeInfo, tab) {
-    console.log(" Event on tab onUpdated ");
-        if (!initialized) {
+        console.log(" Event on tab onUpdated and is initialized "+ initialized);
+        if (initialized == false) {
+            console.log("Session not initialized");
             storeId();
         }
         if (changeInfo.url) {
@@ -65,16 +67,16 @@ chrome.tabs.onUpdated.addListener(function
 );
 
 chrome.tabs.onSelectionChanged.addListener(function (tabId, props) {
-    console.log(" Event on tab Selected ");
-    if (!initialized) {
+    console.log(" Event on tab Selected and is initialized "+ initialized);
+    if (initialized == false) {
         storeId();
     }
 });
 
 
 chrome.tabs.onCreated.addListener(function (tabId) {
-    console.log(" Event on tab created ");
-    if (!initialized) {
+    console.log(" Event on tab created and is initialized "+ initialized);
+    if (initialized == false) {
         storeId();
     }
 
@@ -92,8 +94,6 @@ function isValidURL(string) {
 
 function getDomain(uri) {
     var domain = uri.match(/^[\w-]+:\/{2,}\[?([\w\.:-]+)\]?(?::[0-9]*)?/)[1]; //get tab value 'url'
-    alert(domain);
-
     return domain;
 }
 

@@ -5,16 +5,12 @@ import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpMethod;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
-import io.vertx.ext.web.common.template.TemplateEngine;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.CorsHandler;
-import io.vertx.ext.web.handler.TemplateHandler;
-import io.vertx.ext.web.templ.handlebars.HandlebarsTemplateEngine;
 import org.gatekeeper.endpoint.handler.*;
 import org.gatekeeper.endpoint.util.HandlerRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,22 +43,25 @@ public class RouteConfiguration {
                                 .allowedMethod(HttpMethod.OPTIONS));
 
 
-        router.get("/cohort/id")
+        router.post("/cohort/id")
+                .handler(BodyHandler.create())
                 .handler(handlerRegistry.get(AddDefaultHeadersHandler.class))
+                .handler(handlerRegistry.get(GetSessionIdHandler.class))
                 .handler(handlerRegistry.get(SetCohortIdHandler.class))
                 .handler(handlerRegistry.get(RespondChorotIdHandler.class));
 
         router.post("/gatekeeper/sync")
                 .handler(BodyHandler.create())
                 .handler(handlerRegistry.get(AddDefaultHeadersHandler.class))
+                .handler(handlerRegistry.get(GetSessionDetailsHandler.class))
                 .handler(handlerRegistry.get(GatekeeperSyncHandler.class));
 
         router.get("/gatekeeper/id")
                 .handler(BodyHandler.create())
                 .handler(handlerRegistry.get(AddDefaultHeadersHandler.class))
-                .handler(handlerRegistry.get(SetUserIdHandler.class))
+                .handler(handlerRegistry.get(SetSessionIdHandler.class))
+                .handler(handlerRegistry.get(SetSessionIdCohortIdHandler.class))
                 .handler(handlerRegistry.get(RespondSessionIdHandler.class));
-
 
         router.get("/health")
                 .handler(new RespondHealthCheckHandler());
