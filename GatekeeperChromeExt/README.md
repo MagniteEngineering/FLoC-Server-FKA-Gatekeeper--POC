@@ -1,4 +1,4 @@
-## Setting up Gatekeeprid ChromeExt
+## Setting up Gatekeeper ChromeExt
 
 ### Setting up extension in Browser
 1. Open the Extension Management page by navigating to chrome://extensions.
