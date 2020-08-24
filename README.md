@@ -1,9 +1,11 @@
 # Gatekeeprid-endpoint and Chrome Extension
 
 The Gatekeeper proposal can be found [here](https://github.com/MagniteEngineering/Gatekeeper)
+
 The chrome extension is currently using the gatekeeper endpoint deployed in AWS.
 To use the AWS deployed gatekeeper endpoint in chrome extension, please follow the instruction from 
 [here](/GatekeeperChromeExt/README.md) 
+
 To have a custom/local endpoint, please follow the following steps.
 
 ## Setting up Gatekeeprid-endpoint
