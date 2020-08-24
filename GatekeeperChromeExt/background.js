@@ -55,8 +55,8 @@ function postRequest(uri) {
 
 chrome.tabs.onUpdated.addListener(function
         (tabId, changeInfo, tab) {
-    console.log(" Event on tab onUpdated and is initialized "+ initialized);
-    if (initialized == false) {
+        console.log(" Event on tab onUpdated and is initialized "+ initialized);
+        if (initialized == false) {
             console.log("Session not initialized");
             storeId();
         }
