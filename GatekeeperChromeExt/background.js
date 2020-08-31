@@ -1,9 +1,7 @@
-var initialized = false;
 var SESSIONID_URL ='http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
 //'http://sea-skocheri-mb.local/gatekeeper/id';
 var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/sync';
 //'http://sea-skocheri-mb.local/gatekeeper/sync';
-var sid = "-1";
 
 const interval = setInterval(function() {
     console.log("The session id is reset ");
@@ -14,9 +12,7 @@ function storeId() {
     makeIdRequest(function (data) {
         console.log(" Setting session id");
         chrome.storage.sync.set({"GatekeeperId": data}, function () {
-            sid = data;
             console.log(" Session id: "+ data);
-            initialized = true;
         });
     });
 
@@ -32,17 +28,14 @@ function makeIdRequest(callback) {
     xhr.send();
 }
 
-function postRequest(uri) {
-    if(!isValidURL(uri)){
-        console.log("Invalid uri" + uri);
-        return;
-    }
+function postRequest(uri, sid) {
+
     console.log(" uri " + uri);
     //var domain = extractHostname(uri);
     var  domain = uri;
-    console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sid);
-    var xhr = new XMLHttpRequest();
     var sessionObj = JSON.parse(sid);
+    console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sessionObj.sessionId);
+    var xhr = new XMLHttpRequest();
     xhr.open("POST", GATEKEEPER_SYNC, true);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
@@ -53,37 +46,55 @@ function postRequest(uri) {
     }
 }
 
+function ValidateSessionAndPost(uri){
+    if(!isValidURL(uri)){
+        console.log("Invalid uri" + uri);
+        return;
+    }
+    chrome.storage.sync.get('GatekeeperId', function (obj) {
+        console.log('GatekeeperId', obj.GatekeeperId);
+        if(obj.GatekeeperId == undefined){
+            setSessionAndPost(uri)
+        }else {
+            postRequest(uri,obj.GatekeeperId);
+        }
+
+
+    });
+}
+
+function setSessionAndPost(uri) {
+    makeIdRequest(function (data) {
+        console.log(" Setting session id");
+        chrome.storage.sync.set({"GatekeeperId": data}, function () {
+            console.log(" Session id: "+ data);
+            postRequest(uri, data);
+        });
+    });
+
+}
+
 chrome.tabs.onUpdated.addListener(function
         (tabId, changeInfo, tab) {
-        console.log(" Event on tab onUpdated and is initialized "+ initialized);
-        if (initialized == false) {
-            console.log("Session not initialized");
-            storeId();
-        }
         if (changeInfo.url) {
-            postRequest(changeInfo.url);
+            ValidateSessionAndPost(changeInfo.url);
         }
     }
 );
 
-chrome.tabs.onSelectionChanged.addListener(function (tabId, props) {
+/*chrome.tabs.onSelectionChanged.addListener(function (tabId, props) {
     console.log(" Event on tab Selected and is initialized "+ initialized);
     if (initialized == false) {
         storeId();
     }
-});
+});*/
 
 
 chrome.tabs.onCreated.addListener(function (tabId) {
-    console.log(" Event on tab created and is initialized "+ initialized);
-    if (initialized == false) {
-        storeId();
-    }
-
     chrome.tabs.getSelected(null, function (tab) {
         //get current tab without any selectors
         console.log(" Tab created with url "+ tab.url);
-        postRequest(tab.url)
+        ValidateSessionAndPost(tab.url);
     });
 });
 
