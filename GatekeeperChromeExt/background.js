@@ -6,7 +6,7 @@ var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/
 const interval = setInterval(function() {
     console.log("The session id is reset ");
     storeId();
-}, 86400000);
+}, 18000000);
 
 function storeId() {
     makeIdRequest(function (data) {
@@ -32,7 +32,7 @@ function postRequest(uri, sid) {
 
     console.log(" uri " + uri);
     //var domain = extractHostname(uri);
-    var  domain = uri;
+    var  domain = uri.substring(0, uri.indexOf('?'));
     var sessionObj = JSON.parse(sid);
     console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sessionObj.sessionId);
     var xhr = new XMLHttpRequest();
