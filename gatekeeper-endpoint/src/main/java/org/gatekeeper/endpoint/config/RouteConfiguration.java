@@ -62,6 +62,14 @@ public class RouteConfiguration {
                 .handler(handlerRegistry.get(SetSessionIdHandler.class))
                 .handler(handlerRegistry.get(SetSessionIdCohortIdHandler.class))
                 .handler(handlerRegistry.get(RespondSessionIdHandler.class));
+        
+        router.post("/gatekeeper/interests")
+                .handler(BodyHandler.create())
+                .handler(handlerRegistry.get(AddDefaultHeadersHandler.class))
+                .handler(handlerRegistry.get(GetInterestDetailsHandler.class))
+                .handler(handlerRegistry.get(UpdateInterestHandler.class))
+                .handler(handlerRegistry.get(RespondSessionIdHandler.class));
+
 
         router.get("/health")
                 .handler(new RespondHealthCheckHandler());

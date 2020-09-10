@@ -1,5 +1,5 @@
-var SESSIONID_URL ='http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
-//'http://sea-skocheri-mb.local/gatekeeper/id';
+var SESSIONID_URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
+
 var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/sync';
 //'http://sea-skocheri-mb.local/gatekeeper/sync';
 
@@ -33,15 +33,17 @@ function postRequest(uri, sid) {
     console.log(" uri " + uri);
     //var domain = extractHostname(uri);
     var  domain = uri.substring(0, uri.indexOf('?'));
-    var sessionObj = JSON.parse(sid);
-    console.log(" Posting Request to sync the domain "+ domain +" and session Id "+ sessionObj.sessionId);
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", GATEKEEPER_SYNC, true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
-    xhr.onreadystatechange = function () { // Call a function when the state changes.
-        if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-            console.log("Got response 200!");
+    if(domain.length > 0) {
+        var sessionObj = JSON.parse(sid);
+        console.log(" Posting Request to sync the domain " + domain + " and session Id " + sessionObj.sessionId);
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", GATEKEEPER_SYNC, true);
+        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
+        xhr.onreadystatechange = function () { // Call a function when the state changes.
+            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+                console.log("Got response 200!");
+            }
         }
     }
 }

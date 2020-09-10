@@ -11,3 +11,10 @@ CREATE TABLE session_cohort (
 	cohort_id VARCHAR ( 50 ) NOT NULL,
 	created_on TIMESTAMP NOT NULL
 );
+
+CREATE TABLE session_interest (
+	id serial PRIMARY KEY,
+	session_id VARCHAR ( 50) NOT NULL,
+	interest VARCHAR ( 50 ) NOT NULL,
+	created_on TIMESTAMP NOT NULL
+);

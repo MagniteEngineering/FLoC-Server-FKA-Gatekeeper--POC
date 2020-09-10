@@ -3,10 +3,12 @@ package org.gatekeeper.endpoint.handler;
 import de.huxhorn.sulky.ulid.ULID;
 import io.vertx.core.Handler;
 import io.vertx.ext.web.RoutingContext;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.gatekeeper.endpoint.context.DataContext;
 import org.gatekeeper.endpoint.model.Cohort;
 import org.gatekeeper.endpoint.service.CohortService;
+import org.gatekeeper.endpoint.util.CohortUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class SetCohortIdHandler implements Handler<RoutingContext> {
         DataContext dataContext = DataContext.from(routingContext);
        String sessionId = dataContext.getSessionId();
        if(sessionId.isEmpty()){
-           String cohortId = generateCohortId();
+           String cohortId = CohortUtil.generateCohortId();
            dataContext.setCohortId(cohortId);
 
        }else {
@@ -40,7 +42,7 @@ public class SetCohortIdHandler implements Handler<RoutingContext> {
             dataContext.setCohortId(cohortIdFromDB.getCohortId());
         }else{
             logger.debug(" Cohort not found ");
-            String cohortId = generateCohortId();
+            String cohortId = CohortUtil.generateCohortId();
             dataContext.setCohortId(cohortId);
 
         }
@@ -49,7 +51,4 @@ public class SetCohortIdHandler implements Handler<RoutingContext> {
         routingContext.next();
     }
 
-    private String generateCohortId() {
-        return ulidGenerator.nextULID();
-    }
 }
