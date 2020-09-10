@@ -1,7 +1,7 @@
 package org.gatekeeper.endpoint.context;
 
-import io.vertx.core.http.Cookie;
 import io.vertx.ext.web.RoutingContext;
+import java.util.List;
 
 /**
  * Simple wrapper for retrieving type safe data from the RoutingContext data map.
@@ -12,6 +12,8 @@ public class DataContext {
     private static final String DATA_SESSION_ID = "data.sessionId";
     private static final String DATA_COHORT_ID = "data.cohortId";
     private static final String DATA_DOMAIN_ID = "data.domain";
+    private static final String DATA_PROFILE = "data.profile";
+    private static final String DATA_INTEREST = "data.interest";
 
     private RoutingContext routingContext;
 
@@ -35,6 +37,14 @@ public class DataContext {
 
     public void setSessionId(String sessionId) {
         put(DATA_SESSION_ID, sessionId);
+    }
+
+    public List<String> getInterests() {
+        return get(DATA_PROFILE);
+    }
+
+    public void setInterests(List<String> profiles) {
+        put(DATA_PROFILE, profiles);
     }
 
 
