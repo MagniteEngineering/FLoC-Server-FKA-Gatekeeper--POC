@@ -1,5 +1,5 @@
-var URL = 'http://sea-skocheri-mb.local/cohort/id';
-var UPDATE_INTEREST_URL= 'http://sea-skocheri-mb.local/gatekeeper/interests';
+var URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/cohort/id';
+var UPDATE_INTEREST_URL= 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/interests';
 
 function getCohortId() {
     chrome.storage.sync.get('GatekeeperId', function (obj) {

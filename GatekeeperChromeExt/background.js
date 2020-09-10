@@ -1,5 +1,4 @@
-var SESSIONID_URL ='http://sea-skocheri-mb.local/gatekeeper/id';
-// http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
+var SESSIONID_URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
 
 var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/sync';
 //'http://sea-skocheri-mb.local/gatekeeper/sync';
