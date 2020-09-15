@@ -1,7 +1,6 @@
 var SESSIONID_URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/id';
 
 var GATEKEEPER_SYNC = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/sync';
-//'http://sea-skocheri-mb.local/gatekeeper/sync';
 
 const interval = setInterval(function() {
     console.log("The session id is reset ");
@@ -29,17 +28,18 @@ function makeIdRequest(callback) {
 }
 
 function postRequest(uri, sid) {
-
     console.log(" uri " + uri);
-    //var domain = extractHostname(uri);
-    var  domain = uri.substring(0, uri.indexOf('?'));
-    if(domain.length > 0) {
+    if(uri.includes("?")){
+        uri = uri.substring(0, uri.indexOf('?'));
+    }
+    console.log("Posted uri" + uri);
+    if(uri.length > 0) {
         var sessionObj = JSON.parse(sid);
-        console.log(" Posting Request to sync the domain " + domain + " and session Id " + sessionObj.sessionId);
+        console.log(" Posting Request to sync the domain " + uri + " and session Id " + sessionObj.sessionId);
         var xhr = new XMLHttpRequest();
         xhr.open("POST", GATEKEEPER_SYNC, true);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhr.send(JSON.stringify({"domain": domain, "sid": sessionObj.sessionId}));
+        xhr.send(JSON.stringify({"domain": uri, "sid": sessionObj.sessionId}));
         xhr.onreadystatechange = function () { // Call a function when the state changes.
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 console.log("Got response 200!");
@@ -49,6 +49,7 @@ function postRequest(uri, sid) {
 }
 
 function ValidateSessionAndPost(uri){
+
     if(!isValidURL(uri)){
         console.log("Invalid uri" + uri);
         return;
@@ -60,8 +61,6 @@ function ValidateSessionAndPost(uri){
         }else {
             postRequest(uri,obj.GatekeeperId);
         }
-
-
     });
 }
 
@@ -76,28 +75,35 @@ function setSessionAndPost(uri) {
 
 }
 
-chrome.tabs.onUpdated.addListener(function
-        (tabId, changeInfo, tab) {
-        if (changeInfo.url) {
-            ValidateSessionAndPost(changeInfo.url);
-        }
+chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+    console.log('Tab Updated')
+    if (changeInfo.url) {
+        ValidateSessionAndPost(changeInfo.url);
     }
-);
 
-/*chrome.tabs.onSelectionChanged.addListener(function (tabId, props) {
-    console.log(" Event on tab Selected and is initialized "+ initialized);
-    if (initialized == false) {
-        storeId();
+    if (changeInfo.status === 'loading') {
+        console.log('starting content script injection')
+        injectContentScript(tab);
     }
-});*/
-
+});
 
 chrome.tabs.onCreated.addListener(function (tabId) {
+
     chrome.tabs.getSelected(null, function (tab) {
         //get current tab without any selectors
         console.log(" Tab created with url "+ tab.url);
         ValidateSessionAndPost(tab.url);
     });
+
+});
+
+chrome.tabs.onActivated.addListener(function(info) {
+    var tab = chrome.tabs.get(info.tabId, function(tab) {
+        //get current tab without any selectors
+        console.log(" Tab activated with url "+ tab.url);
+        ValidateSessionAndPost(tab.url);
+    });
+
 });
 
 function isValidURL(string) {
@@ -128,3 +134,29 @@ function extractHostname(url) {
 
     return hostname;
 }
+
+function injectContentScript(tab) {
+    console.log('Injecting script');
+    chrome.storage.sync.get(['Cohort'], function(result) {
+        const cohortData = JSON.parse(result.Cohort);
+        console.log(cohortData);
+        chrome.tabs.executeScript(tab.id, {
+            runAt: 'document_start',
+            code: `
+                ;(function() {
+                    function inject() {
+                        console.log('${cohortData.cohortId}');
+                        const script = document.createElement('script')
+                        script.text="window.rp_visitor={cohort:'${cohortData.cohortId}'};";
+                        document.head.appendChild(script);
+                        console.log(window.rp_visitor);
+                    }
+                    inject();
+                })();
+            `,
+        });
+    })
+
+
+}
+

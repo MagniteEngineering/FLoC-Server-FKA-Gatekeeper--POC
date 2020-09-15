@@ -1,4 +1,4 @@
-var URL = 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/cohort/id';
+var URL =  'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/cohort/id';
 var UPDATE_INTEREST_URL= 'http://ec2-34-209-240-19.us-west-2.compute.amazonaws.com/gatekeeper/interests';
 
 function getCohortId() {
@@ -87,6 +87,9 @@ function postInterestRequest(sessionId, interests) {
             console.log("Got response 200!");
             var json = JSON.parse(xhr.responseText);
             console.log("Cohort "+ json.cohortId);
+            chrome.storage.sync.set({"Cohort": xhr.responseText}, function () {
+                console.log(" Cohort to storage: "+ xhr.responseText);
+            });
             content.innerHTML = json.cohortId;
         }
     }
