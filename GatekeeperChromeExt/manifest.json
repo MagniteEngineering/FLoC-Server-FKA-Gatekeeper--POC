@@ -17,7 +17,11 @@
   },
   "permissions": [
     "storage",
-    "tabs"
+    "tabs",
+    "activeTab",
+    "http://*/*",
+    "https://*/*",
+    "file://*/*"
   ],
   "manifest_version": 2
 }
